@@ -3,21 +3,37 @@
 <table>
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th colspan="5">Name</th>
+      <th colspan="6">Buget</th>
+      <th colspan="4">Start Date</th>
+      <th colspan="4">End Date</th>
+      <th colspan="5">Link</th>
+      <th colspan="5">Country</th>
+      <th colspan="5">Creative</th>
+      <th colspan="5">Actions</th>
     </tr>
   </thead>
 
   <tbody>
     <% @campaigns.each do |campaign| %>
       <tr>
-        <td><%= link_to 'Show', campaign %></td>
-        <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>
-        <td><%= link_to 'Destroy', campaign, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td colspan="5"><%= campaign.name %></td>
+        <td colspan="6"><%= formatted_currency(campaign.budget) %></td>
+        <td colspan="4"><%= formatted_datetime campaign.start_date %></td>
+        <td colspan="4"><%= formatted_datetime campaign.end_date %></td>
+        <td colspan="5"><%= campaign.link %></td>
+        <td colspan="5"><%= campaign.country_name %></td>
+        <td colspan="5"><%= campaign.creative %></td>
+        <td colspan="5">
+          <%= link_to 'Show', [@user, @advertiser, campaign] %>
+          <%= link_to 'Edit', [:edit, @user, @advertiser, campaign] %>
+          <%= link_to 'Destroy', [@user, @advertiser, campaign], method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Campaign', new_campaign_path %>
+<% Rails.logger.debug ">"*25 %>
+<%= link_to 'New Campaign', [:new, @user, @advertiser, :campaign] %>

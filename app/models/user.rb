@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   # Validations
   validate :first_name, :last_name, :role, :email, presence: true
+  validate :password, :password_confirmation, presence: true, :on => :create
 
   def full_name
     "#{first_name.humanize} #{last_name.humanize}"

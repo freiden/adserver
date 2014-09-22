@@ -2,6 +2,15 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :budget %>
+    <%= f.input :start_date, :as => :datetime %>
+    <%= f.input :end_date, :as => :datetime %>
+    <%= f.input :in_pause %>
+    <%= f.input :link %>
+    <%= f.input :country_code  %>
+    <%= f.input :creative %>
+    <%= f.input :advertiser_id, :as => :hidden, input_html: { value: @advertiser.id } %>
   </div>
 
   <div class="form-actions">

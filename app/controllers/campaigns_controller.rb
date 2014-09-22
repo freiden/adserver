@@ -1,14 +1,13 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource only: [:show, :edit, :update, :destroy]
+  before_action :check_associated_resources
 
   # GET /campaigns
-  # GET /campaigns.json
   def index
     @campaigns = Campaign.all
   end
 
   # GET /campaigns/1
-  # GET /campaigns/1.json
   def show
   end
 
@@ -22,46 +21,44 @@ class CampaignsController < ApplicationController
   end
 
   # POST /campaigns
-  # POST /campaigns.json
   def create
     @campaign = Campaign.new(campaign_params)
 
     respond_to do |format|
       if @campaign.save
-        format.html { redirect_to @campaign, notice: 'Campaign was successfully created.' }
-        format.json { render :show, status: :created, location: @campaign }
+        format.html { redirect_to [@user, @advertiser, @campaign], notice: 'Campaign was successfully created.' }
       else
-        format.html { render :new }
-        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+        format.html { render [:new, @user, @advertiser, :campaign] }
       end
     end
   end
 
   # PATCH/PUT /campaigns/1
-  # PATCH/PUT /campaigns/1.json
   def update
     respond_to do |format|
       if @campaign.update(campaign_params)
-        format.html { redirect_to @campaign, notice: 'Campaign was successfully updated.' }
-        format.json { render :show, status: :ok, location: @campaign }
+        format.html { redirect_to [@user, @advertiser, @campaign], notice: 'Campaign was successfully updated.' }
       else
-        format.html { render :edit }
-        format.json { render json: @campaign.errors, status: :unprocessable_entity }
+        format.html { render [:edit, @user, @advertiser, @campaign] }
       end
     end
   end
 
   # DELETE /campaigns/1
-  # DELETE /campaigns/1.json
   def destroy
     @campaign.destroy
     respond_to do |format|
-      format.html { redirect_to campaigns_url, notice: 'Campaign was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to [@user, @advertiser, campaigns], notice: 'Campaign was successfully destroyed.' }
     end
   end
 
   private
+    def check_associated_resources
+      @user = current_user if current_user && !current_user.administrator?
+      ad = params[:advertiser_id] || @campaign.try(:advertiser_id)
+      @advertiser = Advertiser.find_by_id(ad)
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_campaign
       @campaign = Campaign.find(params[:id])
@@ -69,6 +66,6 @@ class CampaignsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def campaign_params
-      params[:campaign]
+      params[:campaign].permit(:name, :budget, :start_date, :end_date, :in_pause, :link, :country_code, :creative, :advertiser_id)
     end
 end

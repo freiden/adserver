@@ -11,39 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140922002845) do
+ActiveRecord::Schema.define(version: 20140922024033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "advertisers", force: true do |t|
-    t.string   "company",    null: false
+    t.string   "company",      null: false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
     t.string   "address"
     t.string   "city"
     t.string   "postcode"
-    t.string   "country"
+    t.string   "country_code"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",    null: false
+    t.integer  "user_id",      null: false
   end
 
   add_index "advertisers", ["user_id"], name: "index_advertisers_on_user_id", using: :btree
 
   create_table "campaigns", force: true do |t|
-    t.string   "name",                      null: false
-    t.integer  "budget",        default: 0, null: false
+    t.string   "name",                          null: false
+    t.integer  "budget",        default: 0,     null: false
     t.datetime "start_date"
     t.datetime "end_date"
-    t.string   "in_pause"
     t.string   "link"
-    t.string   "country"
+    t.string   "country_code"
     t.string   "creative"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "advertiser_id",             null: false
+    t.integer  "advertiser_id",                 null: false
+    t.boolean  "in_pause",      default: false, null: false
   end
 
   add_index "campaigns", ["advertiser_id"], name: "index_campaigns_on_advertiser_id", using: :btree

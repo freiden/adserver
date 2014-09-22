@@ -2,6 +2,19 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.input :company %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :email %>
+    <%= f.input :address %>
+    <%= f.input :city %>
+    <%= f.input :postcode %>
+    <%= f.input :country_code  %>
+    <%- if current_user.administrator? -%>
+      <%= f.select :user_id, User.all.map { |u| [u.full_name, u.id] } %>
+    <%- else -%>
+      <%= f.input :user_id, :as => :hidden, input_html: { value: current_user.id } %>
+    <%- end -%>
   </div>
 
   <div class="form-actions">

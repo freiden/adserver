@@ -1,4 +1,16 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_advertiser_path(@advertiser) %> |
-<%= link_to 'Back', advertisers_path %>
+<div class="advertiser-info">
+  <p class="text">Company: <%= @advertiser.company.camelize %></p>
+  <p class="text">Name: <%= @advertiser.full_name %></p>
+  <p class="text">Email: <%= @advertiser.email %></p>
+  <p class="text">Address: <%= @advertiser.address %></p>
+  <p class="text">City: <%= @advertiser.city %></p>
+  <p class="text">Postcode: <%= @advertiser.postcode %></p>
+  <p class="text">Country: <%= @advertiser.country_name %></p>
+</div>
+
+<%= link_to 'Edit', [:edit, @user, @advertiser] %> |
+<%= link_to 'Back', [@user, :advertisers] %>
+
+<p><%= link_to 'Campaign Index', [@user, @advertiser, :campaigns] %></p>
