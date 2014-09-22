@@ -1,4 +1,5 @@
 class CampaignsController < ApplicationController
+  before_action :authenticate_user!, :except => :api_index
   load_and_authorize_resource only: [:show, :edit, :update, :destroy]
   before_action :check_associated_resources
 
@@ -50,6 +51,10 @@ class CampaignsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to [@user, @advertiser, campaigns], notice: 'Campaign was successfully destroyed.' }
     end
+  end
+
+  # API methods
+  def api_index
   end
 
   private

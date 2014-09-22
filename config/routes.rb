@@ -13,11 +13,12 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :api, module: false do
-    get 'campaigns'
-    get 'campaigns/active'
-    get ':country/campaigns/'
-    get ':country/campaigns/active'
+  scope '/api' do
+    get '(:country)/campaigns/(:status)', to: 'campaigns#api_index'
+   # get 'campaigns', to: 'campaigns#index'
+   # get 'campaigns/active', to: 'campaigns#index'
+   # get ':country/campaigns/', to: 'campaigns#index'
+   # get ':country/campaigns/active', to: 'campaigns#index'
   end
 
   root 'advertisers#index'
