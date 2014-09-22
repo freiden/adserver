@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Adserver</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag    'application', media: 'all' %>
+  <%= javascript_include_tag 'application' %>
+</head>
+<body>
+  <%- if flash.present? -%>
+    <div class="flashes">
+      <%- %i(error notice alert warning).each do |key| -%>
+        <%- next unless flash[key].present? -%>
+        <div class="flash <%= key %>">
+          <%= flash[key].html_safe %>
+        </div>
+      <%- end -%>
+    </div>
+  <%- end -%>
+
+  <%- if current_user -%>
+    <div class="sessions">
+      <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+    </div>
+  <%- end -%>
+<%= yield %>
+
+</body>
+</html>
