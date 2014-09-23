@@ -54,7 +54,17 @@ class CampaignsController < ApplicationController
   end
 
   # API methods
+  # api/campaigns (all campaigns)
+  # api/campaigns/active (all active campaigns)
+  # api/:country/campaigns (campaigns in country)
+  # api/:country/campaigns/active (active campaigns in country)
   def api_index
+    campaigns = Campaign.all
+    campaigns = campaigns.for_country(params[:country].presence) if params[:country]
+    campaigns = campaigns.active if 'active' == params[:status]
+    respond_to do |format|
+      format.json { render json: campaigns }
+    end
   end
 
   private
