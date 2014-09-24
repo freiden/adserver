@@ -1,6 +1,8 @@
 require 'countries'
 
 class Campaign < ActiveRecord::Base
+  include CountryNamingConcern
+
   belongs_to :advertiser
 
   scope :started, -> { where("start_date <= ?", DateTime.now.utc) }
@@ -19,9 +21,4 @@ class Campaign < ActiveRecord::Base
    return none unless c
    where(country_code: c)
   }
-
-  def country_name
-    country = ISO3166::Country[country_code]
-    country.name
-  end
 end

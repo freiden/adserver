@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include NamingConcern
+
   ROLES = %w(administrator user)
 
   # Include default devise modules. Others available are:
@@ -12,10 +14,7 @@ class User < ActiveRecord::Base
   # Validations
   validate :first_name, :last_name, :role, :email, presence: true
   validate :password, :password_confirmation, presence: true, :on => :create
-
-  def full_name
-    "#{first_name.humanize} #{last_name.humanize}"
-  end
+  validate :role, inclusion: { in: ROLES }
 
   ROLES.each do |r|
     define_method "#{r}?" do

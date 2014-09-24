@@ -15,10 +15,6 @@ Rails.application.routes.draw do
 
   scope '/api' do
     get '(:country)/campaigns/(:status)', to: 'campaigns#api_index'
-   # get 'campaigns', to: 'campaigns#index'
-   # get 'campaigns/active', to: 'campaigns#index'
-   # get ':country/campaigns/', to: 'campaigns#index'
-   # get ':country/campaigns/active', to: 'campaigns#index'
   end
 
   root 'advertisers#index'

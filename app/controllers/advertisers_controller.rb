@@ -1,9 +1,11 @@
 class AdvertisersController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource only: [:show, :edit, :update, :destroy]
   before_action :check_associated_resources
 
   def index
-    @advertisers = current_user.administrator? ? Advertiser.all : Advertiser.where(user_id: current_user.id)
+    @advertisers = Advertiser.all
+    @advertisers = @advertisers.where(user_id: current_user.id) unless current_user.administrator?
   end
 
   def show

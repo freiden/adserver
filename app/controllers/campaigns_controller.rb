@@ -6,6 +6,7 @@ class CampaignsController < ApplicationController
   # GET /campaigns
   def index
     @campaigns = Campaign.all
+    @campaigns = @campaigns.where(advertiser_id: current_user.advertiser_ids) unless current_user.administrator?
   end
 
   # GET /campaigns/1
